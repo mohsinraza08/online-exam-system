@@ -13,58 +13,59 @@ import com.exam.onlineexamsystem.model.exam.Quiz;
 import com.exam.onlineexamsystem.repository.QuestionRepository;
 import com.exam.onlineexamsystem.service.QuestionService;
 
-
 @Service
 public class QuestionServiceImple implements QuestionService {
 
-	@Autowired
-	private QuestionRepository questionRepository;
-	
-	@Override
-	public Question addQuestion(Question question) {
-		// TODO Auto-generated method stub
-		return this.questionRepository.save(question);
-	}
+    @Autowired
+    private QuestionRepository questionRepository;
 
-	@Override
-	public Question updateQuestion(Question question) {
-		// TODO Auto-generated method stub
-		return this.questionRepository.save(question);
-	}
+    @Override
+    public Question addQuestion(Question question) {
+        return this.questionRepository.save(question);
+    }
 
-	@Override
-	public Set<Question> getQuestions() {
-		// TODO Auto-generated method stub
-		return new HashSet(this.questionRepository.findAll());
-	}
+    @Override
+    public Question updateQuestion(Question question) {
+        return this.questionRepository.save(question);
+    }
 
-	@Override
-	public Question getQuestion(Long questionId) {
-		// TODO Auto-generated method stub
-		return this.questionRepository.findById(questionId).get();
-	}
-	@Override
-	public void deleteQuestion(Long questionId) {
-	    this.questionRepository.deleteById(questionId);
-	}
+    @Override
+    public Set<Question> getQuestions() {
+        return new HashSet<>(this.questionRepository.findAll());
+    }
 
+    @Override
+    public Question getQuestion(Long questionId) {
+        return this.questionRepository.findById(questionId).orElse(null);
+    }
 
-	@Override
-	public Set<Question> getQuestionofQuiz(Quiz quiz) {
-		// TODO Auto-generated method stub
-		return this.questionRepository.findByQuiz( quiz);
-	}
+    @Override
+    public void deleteQuestion(Long questionId) {
+        this.questionRepository.deleteById(questionId);
+    }
 
-	@Override
-	public void deleteQuestions(List<Long> questionIds) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public Set<Question> getQuestionofQuiz(Quiz quiz) {
+        return this.questionRepository.findByQuiz(quiz);
+    }
 
-	@Override
-	public Page<Question> getPaginatedQuestions(int page, int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    // ✅ This is the missing method causing the build error
+    @Override
+    public Set<Question> getQuestionofQuiz(Long quizId) {
+        Quiz quiz = new Quiz();
+        quiz.setQid(quizId);
+        Set<Question> questions = questionRepository.findByQuiz(quiz);
+        return (Set<Question>) List.copyOf(questions); // Or new ArrayList<>(questions);
+    }
 
+    @Override
+    public void deleteQuestions(List<Long> questionIds) {
+        // Implement logic if needed
+    }
+
+    @Override
+    public Page<Question> getPaginatedQuestions(int page, int size) {
+        // Implement logic if needed
+        return null;
+    }
 }
