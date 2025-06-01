@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Result</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container py-5">
+    <h2 class="text-center mb-4" th:text="'Result for ' + ${quiz.title}">Quiz Result</h2>
+
+	<div class="card p-4">
+	    <h5>Quiz Summary</h5>
+	    <p><strong>Total Questions:</strong> <span th:text="${totalQuestions}"></span></p>
+	    <p><strong>Attempted:</strong> <span th:text="${attempted}"></span></p>
+	    <p><strong>Correct Answers:</strong> <span th:text="${correct}"></span></p>
+	    <p><strong>Score:</strong> <span th:text="${score}"></span> / 100</p>
+	</div>
+
+	<div class="card p-4 mt-4">
+	    <h5>Detailed Review</h5>
+	    <div th:each="result : ${questionResults}" class="mb-4 border rounded p-3 bg-white">
+	        <p>
+	            <strong>Q:</strong> <span th:text="${result.question.content}"></span>
+				
+	            <span th:if="${result.correct}" class="text-success">✅</span>
+	            <span th:if="${!result.correct}" class="text-danger">❌</span>
+	        </p>
+	        <ul class="list-unstyled">
+	            <li>A. <span th:text="${result.question.option1}"></span></li>
+	            <li>B. <span th:text="${result.question.option2}"></span></li>
+	            <li>C. <span th:text="${result.question.option3}"></span></li>
+	            <li>D. <span th:text="${result.question.option4}"></span></li>
+	        </ul>
+	        <p><strong>Your Answer:</strong> <span th:text="${result.givenAnswer} ?: 'Not Attempted'"></span></p>
+	        <p><strong>Correct Answer:</strong> <span th:text="${result.question.answer}"></span></p>
+	    </div>
+	</div>
+
+	<a th:href="@{/studenthome}" class="btn btn-primary mt-4">Back to Home</a>
+</div>
+</body>
+</html>

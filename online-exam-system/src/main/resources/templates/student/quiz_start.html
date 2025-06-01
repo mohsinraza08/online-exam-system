@@ -1,0 +1,62 @@
+<!-- templates/student/quiz_start.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Start Quiz</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="container mt-4">
+		<div class="card">
+			<div class="card-header bg-primary text-white">
+				Quiz Overview
+			</div>
+			<div class="card-body">
+				<figure>
+					<blockquote class="blockquote">
+						<p>Please read all instructions carefully before starting the quiz.</p>
+					</blockquote>
+					<figcaption class="blockquote-footer">
+						One step more to go <cite title="Source Title">Online Examination Portal</cite>
+					</figcaption>
+				</figure>
+				<hr>
+				<h3 th:text="${quiz.title}">Quiz Title</h3>
+				<p th:text="${quiz.description}">Quiz Description</p>
+				<hr>
+				<ul class="list-group list-group-flush mt-3">
+					<li class="list-group-item">📝 This quiz is only for <strong>practice</strong> purposes.</li>
+					<li class="list-group-item">⏱️ You must submit the quiz within
+						<b th:text="${quiz.numberOfQestion}">0</b> minutes.
+					</li>
+					<li class="list-group-item">🔁 You can attempt this quiz <strong>multiple times</strong>.</li>
+					<li class="list-group-item">❓ Total questions:
+						<b th:text="${quiz.numberOfQestion}">0</b>.
+					</li>
+					<li class="list-group-item">🏆 Maximum Marks:
+						<b th:text="${quiz.maxMarks}">0</b>.
+					</li>
+					<li class="list-group-item">✅ All questions are <strong>Multiple Choice Questions (MCQs)</strong>.
+					</li>
+				</ul>
+				<hr>
+				<h4 class="mt-4">📌 Attempting the Quiz</h4>
+				<p>Once you click "Start Now", your quiz timer will begin. Please make sure you have a stable internet
+					connection and are prepared to complete the quiz in one sitting.</p>
+
+				<div class="text-center mt-4">
+					<a th:href="@{'/studenthome/quiz/attempt/' + ${quiz.qid}}" class="btn btn-success btn-lg"
+					   onclick="return confirm('Are you sure you want to start the quiz now?');">
+					   Start Now
+					</a>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
